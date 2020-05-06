@@ -11,7 +11,15 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "@okta/jwt-verifier": "0.0.11",
+    "@okta/okta-vue": "^1.0.0",
+    "axios": "^0.18.0",
+    "bootstrap-vue": "^2.13.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "finale-rest": "^1.0.6",
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

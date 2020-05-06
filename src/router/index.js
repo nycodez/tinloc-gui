@@ -1,20 +1,41 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Hello from '@/components/Hello'
+import MatchManager from '@/components/MatchManager'
+import Auth from '@okta/okta-vue'
 
-const routerOptions = [
-  { path: '/', component: 'Home' },
-  { path: '/matches', component: 'Matches' }
-]
-const routes = routerOptions.map(route => {
-  return {
-    ...route,
-    component: () => import(`@/components/${route.component}.vue`)
-  }
+Vue.use(Auth, {
+  issuer: 'https://dev-290523.okta.com/oauth2/default',
+  client_id: '0oab20corlIMt8mvD4x6',
+  redirect_uri: 'http://localhost:8080/implicit/callback',
+  scope: 'openid profile email'
 })
 
 Vue.use(Router)
 
-export default new Router({
-  routes,
-  mode: 'history'
+let router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'Hello',
+      component: Hello
+    },
+    {
+      path: '/implicit/callback',
+      component: Auth.handleCallback()
+    },
+    {
+      path: '/matches',
+      name: 'MatchManager',
+      component: MatchManager,
+      meta: {
+        requiresAuth: true
+      }
+    }
+  ]
 })
+
+router.beforeEach(Vue.prototype.$auth.authRedirectGuard())
+
+export default router
